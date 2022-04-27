@@ -9,7 +9,7 @@ import {
 
 export const useObserver = () => {
   const [isVisiable, setVisiable] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement | null>(null);
 
   let style = isVisiable
@@ -40,7 +40,7 @@ export const useObserver = () => {
       observer.observe(current);
       return () => observer.unobserve(current);
     }
-  }, [ref]);
+  }, [ref, callback, option]);
 
   return {
     ref,

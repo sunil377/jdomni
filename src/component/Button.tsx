@@ -18,8 +18,8 @@ const Button: FC<ButtonProps> = ({
 }) => {
   const classes = `rounded-[4rem] transition-colors duration-300 hover:text-white hover:bg-blue-600 ${
     variant === "contained"
-      ? " bg-skin-blue-500 text-white"
-      : "text-skin-blue-500 border border-skin-blue-500 "
+      ? " bg-blue-500 text-white"
+      : "text-blue-500 border border-blue-500 "
   } ${
     size === "base"
       ? "text-xs px-8 py-2 "

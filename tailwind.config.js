@@ -4,14 +4,11 @@ module.exports = {
   content: ["./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
+      screens: {
+        xs: "448px",
+      },
       fontFamily: {
         sans: ["Nunito", ...defaultTheme.fontFamily.sans],
-      },
-      colors: {
-        skin: {
-          blue: {500: "#0086ff"},
-          gray: "#3f4755",
-        },
       },
       animation: {
         slide: "slide 0.5s linear 1",
@@ -24,8 +21,5 @@ module.exports = {
       },
     },
   },
-  corePlugins: {
-    aspectRatio: false,
-  },
-  plugins: [require("@tailwindcss/aspect-ratio")],
+  plugins: [],
 };

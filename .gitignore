@@ -11,6 +11,10 @@
 # production
 /build
 
+# server
+/pyto_omni
+/src/api
+
 # misc
 .DS_Store
 .env.local

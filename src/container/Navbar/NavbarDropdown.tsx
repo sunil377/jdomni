@@ -38,9 +38,7 @@ export const NavbarDropdown: FC<NavbarDropdownProps> = ({links}) => {
                     <Link
                       {...arg}
                       className={`w-full justify-start px-6 py-1.5 text-base ${
-                        active
-                          ? "bg-skin-blue-500 text-white hover:text-white"
-                          : "text-skin-gray"
+                        active ? "bg-blue-500 text-white hover:text-white" : ""
                       }`}
                     />
                   </li>

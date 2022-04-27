@@ -1,4 +1,4 @@
-import {FC, useCallback, useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {useObserver} from "../../hooks/useObserver";
 import CommentCard from "./CommentCard";
 
@@ -59,7 +59,7 @@ const Comment: FC<CommentProps> = props => {
         Here’s What Our Customers Have Been Saying About Us
       </h2>
       <section className="mx-auto hidden h-[480px] max-w-4xl overflow-hidden px-4 md:grid md:grid-cols-2">
-        {activeArray.map((arg, index) => (
+        {activeArray.map(arg => (
           <CommentCard key={arg.username} {...arg} />
         ))}
       </section>
@@ -72,6 +72,7 @@ const Comment: FC<CommentProps> = props => {
       <div className="col-span-2 space-x-1 text-center">
         {Array.from(new Array(data.length)).map((arg, index) => (
           <button
+            key={index}
             className={`h-2 w-2 min-w-[8px] rounded-full ${
               active === index ? "bg-blue-500" : "bg-blue-200"
             }`}
