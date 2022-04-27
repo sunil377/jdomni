@@ -1,7 +1,12 @@
 import {FC} from "react";
+import {Link} from "react-router-dom";
 
-import banner from "../assets/images/banner.webp";
+import {SIGNUP_URL} from "../constants/url";
 import Button from "../component/Button";
+
+/* asstes */
+import banner from "../assets/images/banner.webp";
+import pc from "../assets/images/pc.webp";
 
 const Action: FC<ActionProps> = props => {
   return (
@@ -13,7 +18,7 @@ const Action: FC<ActionProps> = props => {
         <h2>Get a FREE Website in 3 Easy Steps</h2>
         <p>No Design or Coding Skills Required</p>
         <div className="space-y-4">
-          <Button size="large" shadow={true}>
+          <Button size="large" shadow={true} as={Link} to={SIGNUP_URL}>
             create your free Account
           </Button>
           <p className="text-center text-[0.6rem] text-gray-700">
@@ -28,11 +33,7 @@ const Action: FC<ActionProps> = props => {
           backgroundImage: `url(${banner})`,
         }}
       >
-        <img
-          src={"https://image1.jdomni.in/jdomni_email/web001_2011102155.png"}
-          alt=""
-          className="sticky top-[64px] -z-10"
-        />
+        <img src={pc} alt="" className="sticky top-[64px] -z-10" />
       </aside>
     </section>
   );

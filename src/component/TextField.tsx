@@ -31,7 +31,7 @@ const TextField: FC<TextFieldProps> = ({id, name, label, ...props}) => {
           id={uid}
           {...props}
           {...fields}
-          className="basis-full transform outline-none transition-transform"
+          className="basis-full transform bg-inherit outline-none transition-transform"
           aria-invalid={isInvalid}
         />
         {props.type === "password" && (

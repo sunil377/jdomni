@@ -1,4 +1,4 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import {MdClose} from "react-icons/md";
 import {Link} from "react-router-dom";
 import Button from "../component/Button";
@@ -9,19 +9,17 @@ import {useObserver} from "../hooks/useObserver";
 import {Formik, Form} from "formik";
 import logo from "../assets/images/logo.webp";
 import {LoginValidation} from "../config/validation";
+import {useTitle} from "../hooks/useTitle";
 
 const Login: FC<LoginProps> = props => {
+  useTitle("Login to Jd Omni");
   const {ref, style} = useObserver();
 
-  useEffect(() => {
-    document.title = "Login to Jd Omni";
-  }, []);
-
   return (
-    <main className="grid min-h-screen  w-full bg-gray-50 xs:items-center ">
+    <main className="grid min-h-screen w-full bg-gray-50 xs:items-center ">
       <section
         ref={ref}
-        className={`relative mx-auto w-full max-w-md border bg-white py-12 px-2 
+        className={`relative mx-auto w-full max-w-md border bg-white py-12 px-4 
         shadow-xl sm:rounded-xl md:max-w-lg xs:px-12 ${style}`}
       >
         <Link
@@ -65,11 +63,11 @@ const Login: FC<LoginProps> = props => {
             </Button>
           </Form>
         </Formik>
-        <p className="text-center text-gray-900">
+        <p className="text-center align-middle text-gray-900">
           Do not have an account?{" "}
           <Link
             to={SIGNUP_URL}
-            className="text-sm font-normal uppercase text-gray-900 
+            className="text-sm font-semibold uppercase text-black
                 underline hover:no-underline focus:no-underline"
           >
             create Account

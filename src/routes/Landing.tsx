@@ -1,4 +1,4 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import Action from "../container/Action";
 import Comment from "../container/Comments/Comment";
 import Contact from "../container/Contact/Contact";
@@ -8,12 +8,10 @@ import PowerFullEditor from "../container/PowerFullEditor";
 import Startup from "../container/StartUp/Startup";
 import Tools from "../container/Tools/Tools";
 import Websites from "../container/Work/Websites";
+import {useTitle} from "../hooks/useTitle";
 
 const Landing: FC<LandingProps> = props => {
-  useEffect(() => {
-    document.title =
-      "Create a Free Website | best Online Ecommerce website builder";
-  }, []);
+  useTitle();
 
   return (
     <>
