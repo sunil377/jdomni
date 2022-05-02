@@ -10,8 +10,8 @@ npm install
 ```
 
 > create account on mongo db and copy cluster url
-> **mongodb+srv://<name>:<password>@cluster0.m4huf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority**and
-> put that as value of MONGO_DB in .env file and change and good to go
+> **mongodb+srv://name:password@cluster0.m4huf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority**and
+> put that as value of MONGO_DB in .env file and change **name** and **password** and good to go
 
 - start the server by running
 
