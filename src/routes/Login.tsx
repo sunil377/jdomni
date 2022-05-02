@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {MdClose} from "react-icons/md";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Button from "../component/Button";
 import TextField from "../component/TextField";
 import {SIGNUP_URL} from "../constants/url";
@@ -10,9 +10,11 @@ import {Formik, Form} from "formik";
 import logo from "../assets/images/logo.webp";
 import {LoginValidation} from "../config/validation";
 import {useTitle} from "../hooks/useTitle";
+import axios from "axios";
 
 const Login: FC<LoginProps> = props => {
   useTitle("Login to Jd Omni");
+  const navigate = useNavigate();
   const {ref, style} = useObserver();
 
   return (
@@ -42,26 +44,41 @@ const Login: FC<LoginProps> = props => {
         <Formik
           initialValues={{email: "", password: ""}}
           validationSchema={LoginValidation}
-          onSubmit={values => {
-            alert(JSON.stringify(values, null, 2));
+          onSubmit={(values, {setSubmitting, setErrors}) => {
+            setSubmitting(true);
+            axios
+              .post("http://localhost:3001/api/v1/login", {...values})
+              .then(({data}) => {
+                console.log("result: ", data.data);
+                navigate("/");
+              })
+              .catch(({response}) => {
+                console.log(response);
+                const {email, password} = response.data.msg;
+                setErrors({email, password});
+                setSubmitting(false);
+              });
           }}
         >
-          <Form className="flex flex-col gap-y-2 py-6">
-            <TextField name="email" type="email" label="email" />
-            <TextField name="password" type="password" label="Password" />
+          {({isSubmitting}) => (
+            <Form className="flex flex-col gap-y-2 py-6">
+              <TextField name="email" type="email" label="email" />
+              <TextField name="password" type="password" label="Password" />
 
-            <Button
-              type="submit"
-              size="large"
-              shadow={true}
-              className="w-full uppercase"
-              style={{
-                padding: "0.7rem",
-              }}
-            >
-              Log In
-            </Button>
-          </Form>
+              <Button
+                type="submit"
+                size="large"
+                shadow={true}
+                disabled={isSubmitting}
+                className="w-full uppercase"
+                style={{
+                  padding: "0.7rem",
+                }}
+              >
+                Log In
+              </Button>
+            </Form>
+          )}
         </Formik>
         <p className="text-center align-middle text-gray-900">
           Do not have an account?{" "}

@@ -14,7 +14,7 @@
     hover:text-blue-500;
   }
   button {
-    @apply disabled:pointer-events-none disabled:cursor-default;
+    @apply disabled:pointer-events-none disabled:cursor-default disabled:opacity-50;
   }
   a {
     @apply no-underline;
