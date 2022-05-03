@@ -1,9 +1,9 @@
-import {FC} from "react";
+import { FC } from "react";
 import Button from "../../component/Button";
-import {useObserver} from "../../hooks/useObserver";
-import ToolCard from "./ToolCard";
+import { useObserver } from "../../hooks/useObserver";
+import FeatureCard from "./FeatureCard";
 
-const toolsData = [
+const data = [
   {
     title: "Mobile Optimized",
     desc: "Ensure visitors who access your site from mobile devices have an experience optimized for the device.",
@@ -51,8 +51,8 @@ const toolsData = [
   },
 ];
 
-const Tools: FC<ToolsProps> = props => {
-  const {ref, style} = useObserver();
+const Feature: FC<FeatureProps> = props => {
+  const { ref, style } = useObserver();
 
   return (
     <div className="flex min-h-screen flex-col justify-center gap-y-5 bg-blue-50 px-4 py-10">
@@ -60,8 +60,8 @@ const Tools: FC<ToolsProps> = props => {
         Everything You Need To Create Your Own Website
       </h2>
       <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-2 lg:grid-cols-3">
-        {toolsData.map((data, i) => (
-          <ToolCard key={data.title} {...data} index={i} />
+        {data.map((d, i) => (
+          <FeatureCard key={d.title} {...d} index={i} />
         ))}
       </div>
       <div className={`text-center ${style}`} ref={ref}>
@@ -73,6 +73,6 @@ const Tools: FC<ToolsProps> = props => {
   );
 };
 
-export default Tools;
+export default Feature;
 
-interface ToolsProps {}
+interface FeatureProps {}

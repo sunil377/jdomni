@@ -1,12 +1,12 @@
-import {FC} from "react";
-import {Link, useNavigate} from "react-router-dom";
-import {Formik, Form} from "formik";
-import {MdClose} from "react-icons/md";
+import { FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Formik, Form } from "formik";
+import { MdClose } from "react-icons/md";
 
-import {LOGIN_URL} from "../constants/url";
-import {useObserver} from "../hooks/useObserver";
-import {LoginValidation} from "../config/validation";
-import {useTitle} from "../hooks/useTitle";
+import { LOGIN_URL } from "../constants/url";
+import { useObserver } from "../hooks/useObserver";
+import { LoginValidation } from "../config/validation";
+import { useTitle } from "../hooks/useTitle";
 
 /* components */
 import Button from "../component/Button";
@@ -21,7 +21,7 @@ import axios from "axios";
 const Signup: FC<SignupProps> = props => {
   useTitle();
   const navigate = useNavigate();
-  const {ref, style} = useObserver();
+  const { ref, style } = useObserver();
 
   return (
     <main
@@ -45,6 +45,7 @@ const Signup: FC<SignupProps> = props => {
             <span className="sr-only">back to home</span>
             <MdClose size="1.8rem" />
           </Link>
+
           <img
             src={logo}
             alt="jdomni"
@@ -58,28 +59,38 @@ const Signup: FC<SignupProps> = props => {
           </h1>
 
           <Formik
-            initialValues={{email: "", password: ""}}
+            initialValues={{ email: "", password: "" }}
             validationSchema={LoginValidation}
-            onSubmit={(values, {setSubmitting, setErrors}) => {
+            onSubmit={(values, { setSubmitting, setErrors }) => {
               setSubmitting(true);
               axios
-                .post("http://localhost:3001/api/v1/users", {...values})
-                .then(({data}) => {
+                .post("http://localhost:3001/api/v1/users", { ...values })
+                .then(({ data }) => {
                   console.log("result: ", data.data);
                   navigate("/");
                 })
-                .catch(({response}) => {
+                .catch(({ response }) => {
                   console.log(response);
-                  const {email, password} = response.data.msg;
-                  setErrors({email, password});
+                  const { email, password } = response.data.msg;
+                  setErrors({ email, password });
                   setSubmitting(false);
                 });
             }}
           >
-            {({isSubmitting}) => (
+            {({ isSubmitting, submitCount }) => (
               <Form className="flex flex-col gap-y-2 py-6">
-                <TextField name="email" type="email" label="email" />
-                <TextField name="password" type="password" label="Password" />
+                <TextField
+                  name="email"
+                  type="email"
+                  label="email"
+                  hasBeenSubmitted={submitCount > 0}
+                />
+                <TextField
+                  name="password"
+                  type="password"
+                  label="Password"
+                  hasBeenSubmitted={submitCount > 0}
+                />
 
                 <Button
                   type="submit"
@@ -98,17 +109,11 @@ const Signup: FC<SignupProps> = props => {
           </Formik>
           <p className="py-4 text-center text-xs">
             By signing up you agree to Jd Omni’s{" "}
-            <Link
-              to="/terms"
-              className=" text-xs underline hover:no-underline focus:no-underline"
-            >
+            <Link to="/terms" className="text-xs underline">
               Terms of Service
             </Link>{" "}
             &{" "}
-            <Link
-              to="/policy"
-              className="text-xs underline hover:no-underline focus:no-underline"
-            >
+            <Link to="/policy" className="text-xs underline">
               Privacy Policy
             </Link>{" "}
           </p>
@@ -117,7 +122,7 @@ const Signup: FC<SignupProps> = props => {
             <Link
               to={LOGIN_URL}
               className="text-sm font-semibold uppercase text-black 
-               underline hover:no-underline focus:no-underline"
+               underline"
             >
               Log In
             </Link>
@@ -127,7 +132,10 @@ const Signup: FC<SignupProps> = props => {
           className="relative flex w-full max-w-md items-center 
         justify-center rounded-xl bg-blue-100 md:rounded-tl-[8rem]"
         >
-          <span className="absolute inset-0 -z-10 bg-white"></span>
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-white"
+          ></span>
           <div
             className="bg-contain bg-no-repeat bg-origin-padding"
             style={{

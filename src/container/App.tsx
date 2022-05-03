@@ -1,7 +1,7 @@
-import {FC, ReactElement} from "react";
-import {Route, Routes} from "react-router-dom";
+import { FC, ReactElement } from "react";
+import { Route, Routes } from "react-router-dom";
 
-const App: FC<AppProps> = ({config}) => {
+const App: FC<AppProps> = ({ config }) => {
   return (
     <Routes>
       {config.map(props => (

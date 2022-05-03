@@ -1,6 +1,6 @@
-import {FC} from "react";
+import { FC } from "react";
 import sprite from "../../assets/images/sprite_icon.webp";
-import {useObserver} from "../../hooks/useObserver";
+import { useObserver } from "../../hooks/useObserver";
 
 const getSpritePosition = (arg: number) => {
   const left = arg > 3 ? arg % 4 : arg;
@@ -8,8 +8,8 @@ const getSpritePosition = (arg: number) => {
   return `top -${top}px left -${10 + 90 * left}px`;
 };
 
-const ToolCard: FC<ToolCardProps> = ({title, desc, index}) => {
-  const {ref, style} = useObserver();
+const FeatureCard: FC<FeatureProps> = ({ title, desc, index }) => {
+  const { ref, style } = useObserver();
 
   return (
     <article className={`flex gap-x-5 ${style}`} ref={ref}>
@@ -28,9 +28,9 @@ const ToolCard: FC<ToolCardProps> = ({title, desc, index}) => {
   );
 };
 
-export default ToolCard;
+export default FeatureCard;
 
-interface ToolCardProps {
+interface FeatureProps {
   title: string;
   desc: string;
   index: number;

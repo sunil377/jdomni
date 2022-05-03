@@ -1,21 +1,22 @@
-import {FC} from "react";
-import {MdClose} from "react-icons/md";
-import {Link, useNavigate} from "react-router-dom";
+import { FC, useRef } from "react";
+import { MdClose } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../component/Button";
 import TextField from "../component/TextField";
-import {SIGNUP_URL} from "../constants/url";
-import {useObserver} from "../hooks/useObserver";
+import { SIGNUP_URL } from "../constants/url";
+import { useObserver } from "../hooks/useObserver";
 
-import {Formik, Form} from "formik";
+import { Formik, Form } from "formik";
 import logo from "../assets/images/logo.webp";
-import {LoginValidation} from "../config/validation";
-import {useTitle} from "../hooks/useTitle";
+import { LoginValidation } from "../config/validation";
+import { useTitle } from "../hooks/useTitle";
 import axios from "axios";
 
 const Login: FC<LoginProps> = props => {
   useTitle("Login to Jd Omni");
   const navigate = useNavigate();
-  const {ref, style} = useObserver();
+  const formRef = useRef<HTMLFormElement>(null);
+  const { ref, style } = useObserver();
 
   return (
     <main className="grid min-h-screen w-full bg-gray-50 xs:items-center ">
@@ -42,28 +43,43 @@ const Login: FC<LoginProps> = props => {
           Log In to Your Account
         </h1>
         <Formik
-          initialValues={{email: "", password: ""}}
+          initialValues={{ email: "", password: "" }}
           validationSchema={LoginValidation}
-          onSubmit={(values, {setSubmitting, setErrors}) => {
+          onSubmit={(values, { setSubmitting, setErrors }) => {
             setSubmitting(true);
             axios
-              .post("http://localhost:3001/api/v1/login", {...values})
-              .then(({data}) => {
+              .post("http://localhost:3001/api/v1/login", { ...values })
+              .then(({ data }) => {
                 console.log("result: ", data.data);
                 navigate("/");
               })
-              .catch(({response}) => {
+              .catch(({ response }) => {
                 console.log(response);
-                const {email, password} = response.data.msg;
-                setErrors({email, password});
+                const { email, password } = response.data.msg;
+                setErrors({ email, password });
                 setSubmitting(false);
+                if (!formRef.current) return;
+                const ele = formRef.current.querySelector(
+                  "[aria-invalid=true]",
+                ) as HTMLInputElement | null;
+                ele && ele.focus();
               });
           }}
         >
-          {({isSubmitting}) => (
-            <Form className="flex flex-col gap-y-2 py-6">
-              <TextField name="email" type="email" label="email" />
-              <TextField name="password" type="password" label="Password" />
+          {({ isSubmitting, submitCount }) => (
+            <Form className="flex flex-col gap-y-2 py-6" ref={formRef}>
+              <TextField
+                name="email"
+                type="email"
+                label="email"
+                hasBeenSubmitted={submitCount > 0}
+              />
+              <TextField
+                name="password"
+                type="password"
+                label="Password"
+                hasBeenSubmitted={submitCount > 0}
+              />
 
               <Button
                 type="submit"

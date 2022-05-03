@@ -1,16 +1,22 @@
-import {DetailedHTMLProps, FC, InputHTMLAttributes} from "react";
-import {useField} from "formik";
-import {Link} from "react-router-dom";
-import {FORGOT_PASSWORD} from "../constants/url";
+import { DetailedHTMLProps, FC, InputHTMLAttributes } from "react";
+import { useField } from "formik";
+import { Link } from "react-router-dom";
+import { FORGOT_PASSWORD } from "../constants/url";
 
-const TextField: FC<TextFieldProps> = ({id, name, label, ...props}) => {
+const TextField: FC<TextFieldProps> = ({
+  id,
+  name,
+  label,
+  hasBeenSubmitted,
+  ...props
+}) => {
   const uid = id || name;
   if (!name) {
     throw new Error("name is not valid");
   }
 
-  const [fields, {error, value, touched}] = useField(name);
-  const isInvalid = touched && error ? true : false;
+  const [fields, { error, value, touched }] = useField(name);
+  const isInvalid = hasBeenSubmitted && touched && error ? true : false;
 
   return (
     <div>
@@ -59,6 +65,7 @@ TextField.defaultProps = {
   autoCapitalize: "off",
   autoCorrect: "off",
   "aria-required": "true",
+  hasBeenSubmitted: false,
 };
 
 export default TextField;
@@ -69,4 +76,5 @@ interface TextFieldProps
     HTMLInputElement
   > {
   label: string;
+  hasBeenSubmitted: boolean;
 }

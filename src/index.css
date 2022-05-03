@@ -17,7 +17,7 @@
     @apply disabled:pointer-events-none disabled:cursor-default disabled:opacity-50;
   }
   a {
-    @apply no-underline;
+    @apply no-underline hover:no-underline focus:no-underline;
   }
   h1,
   h2,
