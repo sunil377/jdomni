@@ -6,7 +6,6 @@ import { MdClose } from "react-icons/md";
 import { LOGIN_URL } from "../constants/url";
 import { useObserver } from "../hooks/useObserver";
 import { LoginValidation } from "../config/validation";
-import { useTitle } from "../hooks/useTitle";
 
 /* components */
 import Button from "../component/Button";
@@ -16,12 +15,15 @@ import TextField from "../component/TextField";
 import logo from "../assets/images/logo.webp";
 import pc from "../assets/images/pc.webp";
 import banner from "../assets/images/banner.webp";
-import axios from "axios";
+import { ConfigSignupType } from "../config/signup.config";
+import { useTitle } from "../hooks/useTitle";
+import { useShiftFocusToInvaildField } from "../hooks/useShiftFocusToInvalidField";
 
-const Signup: FC<SignupProps> = props => {
+const Signup: FC<SignupProps> = ({ onSubmit, initialValues }) => {
   useTitle();
-  const navigate = useNavigate();
   const { ref, style } = useObserver();
+  const setSubmitCount = useShiftFocusToInvaildField();
+  const navigate = useNavigate();
 
   return (
     <main
@@ -59,23 +61,11 @@ const Signup: FC<SignupProps> = props => {
           </h1>
 
           <Formik
-            initialValues={{ email: "", password: "" }}
+            initialValues={initialValues}
             validationSchema={LoginValidation}
-            onSubmit={(values, { setSubmitting, setErrors }) => {
-              setSubmitting(true);
-              axios
-                .post("http://localhost:3001/api/v1/users", { ...values })
-                .then(({ data }) => {
-                  console.log("result: ", data.data);
-                  navigate("/");
-                })
-                .catch(({ response }) => {
-                  console.log(response);
-                  const { email, password } = response.data.msg;
-                  setErrors({ email, password });
-                  setSubmitting(false);
-                });
-            }}
+            onSubmit={(values, helper) =>
+              onSubmit({ values, helper, navigate, setState: setSubmitCount })
+            }
           >
             {({ isSubmitting, submitCount }) => (
               <Form className="flex flex-col gap-y-2 py-6">
@@ -152,4 +142,4 @@ const Signup: FC<SignupProps> = props => {
 
 export default Signup;
 
-interface SignupProps {}
+interface SignupProps extends ConfigSignupType {}

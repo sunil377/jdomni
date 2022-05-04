@@ -1,8 +1,10 @@
 import Landing from "../routes/Landing";
-import Login from "../routes/Login";
-import Signup from "../routes/Signup";
 
-import {LOGIN_URL, SIGNUP_URL} from "../constants/url";
+import { LOGIN_URL, SIGNUP_URL } from "../constants/url";
+import Login from "../routes/Login";
+import loginConfig from "./login.config";
+import Signup from "../routes/Signup";
+import signupConfig from "./signup.config";
 
 const config = [
   {
@@ -11,11 +13,11 @@ const config = [
   },
   {
     path: LOGIN_URL,
-    element: <Login />,
+    element: <Login {...loginConfig} />,
   },
   {
     path: SIGNUP_URL,
-    element: <Signup />,
+    element: <Signup {...signupConfig} />,
   },
   {
     path: "*",

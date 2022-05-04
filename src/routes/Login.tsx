@@ -1,22 +1,25 @@
-import { FC, useRef } from "react";
-import { MdClose } from "react-icons/md";
+import { FC, Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Formik, Form } from "formik";
+
 import Button from "../component/Button";
 import TextField from "../component/TextField";
-import { SIGNUP_URL } from "../constants/url";
+
 import { useObserver } from "../hooks/useObserver";
-
-import { Formik, Form } from "formik";
-import logo from "../assets/images/logo.webp";
 import { LoginValidation } from "../config/validation";
-import { useTitle } from "../hooks/useTitle";
-import axios from "axios";
+import { SIGNUP_URL } from "../constants/url";
 
-const Login: FC<LoginProps> = props => {
-  useTitle("Login to Jd Omni");
-  const navigate = useNavigate();
-  const formRef = useRef<HTMLFormElement>(null);
+import { MdClose } from "react-icons/md";
+import logo from "../assets/images/logo.webp";
+import { ConfigLoginType } from "../config/login.config";
+import { useTitle } from "../hooks/useTitle";
+import { useShiftFocusToInvaildField } from "../hooks/useShiftFocusToInvalidField";
+
+const Login: FC<LoginProps> = ({ onSubmit, initialValues, title }) => {
+  useTitle(title);
   const { ref, style } = useObserver();
+  const setSubmitCount = useShiftFocusToInvaildField();
+  const navigate = useNavigate();
 
   return (
     <main className="grid min-h-screen w-full bg-gray-50 xs:items-center ">
@@ -43,56 +46,41 @@ const Login: FC<LoginProps> = props => {
           Log In to Your Account
         </h1>
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={initialValues}
           validationSchema={LoginValidation}
-          onSubmit={(values, { setSubmitting, setErrors }) => {
-            setSubmitting(true);
-            axios
-              .post("http://localhost:3001/api/v1/login", { ...values })
-              .then(({ data }) => {
-                console.log("result: ", data.data);
-                navigate("/");
-              })
-              .catch(({ response }) => {
-                console.log(response);
-                const { email, password } = response.data.msg;
-                setErrors({ email, password });
-                setSubmitting(false);
-                if (!formRef.current) return;
-                const ele = formRef.current.querySelector(
-                  "[aria-invalid=true]",
-                ) as HTMLInputElement | null;
-                ele && ele.focus();
-              });
-          }}
+          onSubmit={(values, helper) =>
+            onSubmit({ values, helper, setState: setSubmitCount, navigate })
+          }
         >
           {({ isSubmitting, submitCount }) => (
-            <Form className="flex flex-col gap-y-2 py-6" ref={formRef}>
-              <TextField
-                name="email"
-                type="email"
-                label="email"
-                hasBeenSubmitted={submitCount > 0}
-              />
-              <TextField
-                name="password"
-                type="password"
-                label="Password"
-                hasBeenSubmitted={submitCount > 0}
-              />
+            <Form className="flex flex-col gap-y-2 py-6" noValidate>
+              <Fragment>
+                <TextField
+                  name="email"
+                  type="email"
+                  label="email"
+                  hasBeenSubmitted={submitCount > 0}
+                />
+                <TextField
+                  name="password"
+                  type="password"
+                  label="Password"
+                  hasBeenSubmitted={submitCount > 0}
+                />
 
-              <Button
-                type="submit"
-                size="large"
-                shadow={true}
-                disabled={isSubmitting}
-                className="w-full uppercase"
-                style={{
-                  padding: "0.7rem",
-                }}
-              >
-                Log In
-              </Button>
+                <Button
+                  type="submit"
+                  size="large"
+                  shadow={true}
+                  disabled={isSubmitting}
+                  className="w-full uppercase"
+                  style={{
+                    padding: "0.7rem",
+                  }}
+                >
+                  Log In
+                </Button>
+              </Fragment>
             </Form>
           )}
         </Formik>
@@ -113,4 +101,4 @@ const Login: FC<LoginProps> = props => {
 
 export default Login;
 
-interface LoginProps {}
+interface LoginProps extends ConfigLoginType {}
