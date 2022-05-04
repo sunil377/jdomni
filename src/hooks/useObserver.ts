@@ -12,35 +12,40 @@ export const useObserver = () => {
   const [, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement | null>(null);
 
-  let style = isVisiable
-    ? "translate-y-0 opacity-100"
-    : "translate-y-32 opacity-0";
-
-  style = style.concat(" transform transition-all duration-500 ");
+  const style = ` transform transition-all duration-500 ${
+    isVisiable ? " translate-y-0 opacity-100 " : " translate-y-32 opacity-0 "
+  }`;
 
   const callback: IntersectionObserverCallback = useCallback(entries => {
     const [entry] = entries;
     startTransition(() => {
       setVisiable(entry.isIntersecting);
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+      }
     });
   }, []);
 
   const option: IntersectionObserverInit = useMemo(() => {
     return {
       root: null,
-      rootMargin: "20px",
-      threshold: 0.2,
+      threshold: 0.5,
     };
   }, []);
 
+  const observer = useMemo(
+    () => new IntersectionObserver(callback, option),
+    [callback, option],
+  );
+
   useEffect(() => {
-    const {current} = ref;
-    const observer = new IntersectionObserver(callback, option);
+    const { current } = ref;
+
     if (current) {
       observer.observe(current);
       return () => observer.unobserve(current);
     }
-  }, [ref, callback, option]);
+  }, [ref]);
 
   return {
     ref,
