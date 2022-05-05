@@ -1,7 +1,7 @@
-import {FC} from "react";
-import {Link} from "react-router-dom";
+import { FC } from "react";
+import { Link } from "react-router-dom";
 
-import {SIGNUP_URL} from "../constants/url";
+import { SIGNUP_URL } from "../constants/url";
 import Button from "../component/Button";
 
 /* asstes */

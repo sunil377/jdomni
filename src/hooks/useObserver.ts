@@ -1,11 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useTransition,
-} from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 
 export const useObserver = () => {
   const [isVisiable, setVisiable] = useState(false);
@@ -16,36 +9,30 @@ export const useObserver = () => {
     isVisiable ? " translate-y-0 opacity-100 " : " translate-y-32 opacity-0 "
   }`;
 
-  const callback: IntersectionObserverCallback = useCallback(entries => {
-    const [entry] = entries;
-    startTransition(() => {
-      setVisiable(entry.isIntersecting);
-      if (entry.isIntersecting) {
-        observer.unobserve(entry.target);
-      }
-    });
-  }, []);
-
-  const option: IntersectionObserverInit = useMemo(() => {
-    return {
+  const observer = useMemo(() => {
+    const options = {
       root: null,
       threshold: 0.5,
     };
+    const callback: IntersectionObserverCallback = entries => {
+      const [entry] = entries;
+      startTransition(() => {
+        setVisiable(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+    return new IntersectionObserver(callback, options);
   }, []);
 
-  const observer = useMemo(
-    () => new IntersectionObserver(callback, option),
-    [callback, option],
-  );
-
   useEffect(() => {
+    if (null === ref.current) return;
     const { current } = ref;
 
-    if (current) {
-      observer.observe(current);
-      return () => observer.unobserve(current);
-    }
-  }, [ref]);
+    observer.observe(current);
+    return () => observer.unobserve(current);
+  }, [ref, observer]);
 
   return {
     ref,
