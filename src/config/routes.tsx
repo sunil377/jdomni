@@ -1,4 +1,4 @@
-import Landing from "../routes/Landing";
+import { Landing } from "../routes/Landing";
 
 import { LOGIN_URL, SIGNUP_URL } from "../constants/url";
 import Login from "../routes/Login";

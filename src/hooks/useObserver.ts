@@ -5,14 +5,13 @@ export const useObserver = () => {
   const [, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const style = ` transform transition-all duration-500 ${
-    isVisiable ? " translate-y-0 opacity-100 " : " translate-y-32 opacity-0 "
+  const style = ` transform transition-all duration-1000 ${
+    isVisiable ? " translate-y-0 opacity-100 " : " translate-y-28 opacity-0 "
   }`;
 
   const observer = useMemo(() => {
     const options = {
       root: null,
-      threshold: 0.5,
     };
     const callback: IntersectionObserverCallback = entries => {
       const [entry] = entries;
@@ -29,7 +28,6 @@ export const useObserver = () => {
   useEffect(() => {
     if (null === ref.current) return;
     const { current } = ref;
-
     observer.observe(current);
     return () => observer.unobserve(current);
   }, [ref, observer]);

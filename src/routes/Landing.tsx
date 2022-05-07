@@ -1,35 +1,30 @@
-import { FC } from "react";
-import Action from "../container/Action";
-import Comment from "../container/Comments/Comment";
-import Contact from "../container/Contact/Contact";
-import Footer from "../container/Footer/Footer";
-import Navbar from "../container/Navbar/Navbar";
-import PowerFullEditor from "../container/PowerFullEditor";
-import Startup from "../container/StartUp/Startup";
-import Tools from "../container/feature/Feature";
-import Websites from "../container/Work/Websites";
 import { useTitle } from "../hooks/useTitle";
+import { ActionLayout } from "../layout/ActionLayout";
+import { CommentLayout } from "../layout/CommentLayout";
+import { ContactLayout } from "../layout/ContactLayout";
+import { FeatureLayout } from "../layout/FeatureLayout";
+import { FooterLayout } from "../layout/FooterLayout";
+import { Navbar } from "../layout/Navbar/Navbar";
+import { PowerFullEditorLayout } from "../layout/PowerFullEditorLayout";
+import { StartUpLayout } from "../layout/StartUpLayout";
+import { WebsitesLayout } from "../layout/WebsitesLayout";
 
-const Landing: FC<LandingProps> = props => {
+export const Landing = () => {
   useTitle();
 
   return (
     <>
       <Navbar />
-      <main>
-        <Action />
-        <Startup />
-        <PowerFullEditor />
-        <Tools />
-        <Websites />
-        <Comment />
-        <Contact />
-        <Footer />
+      <main className="overflow-hidden">
+        <ActionLayout />
+        <StartUpLayout />
+        <PowerFullEditorLayout />
+        <FeatureLayout />
+        <WebsitesLayout />
+        <CommentLayout />
+        <ContactLayout />
+        <FooterLayout />
       </main>
     </>
   );
 };
-
-export default Landing;
-
-interface LandingProps {}

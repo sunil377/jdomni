@@ -4,7 +4,7 @@ import type {
   ElementType,
   FC,
 } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Button: FC<ButtonProps> = ({
   variant = "contained",
@@ -22,9 +22,9 @@ const Button: FC<ButtonProps> = ({
       : "text-blue-500 border border-blue-500 "
   } ${
     size === "base"
-      ? "text-xs px-8 py-2 "
+      ? "text-xs px-6 py-2.5"
       : size === "large"
-      ? "text-sm px-10 py-4"
+      ? "text-sm px-8 py-3"
       : ""
   } ${shadow ? "shadow-2xl  shadow-blue-400" : ""} ${className}`;
 
